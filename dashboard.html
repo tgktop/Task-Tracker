@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Your Tasks</h2>
+<form method="POST" action="{{ url_for('add_task') }}" class="mb-4">
+    <div class="row">
+        <div class="col-md-4">
+            <input type="text" name="title" class="form-control" placeholder="Task title" required>
+        </div>
+        <div class="col-md-6">
+            <input type="text" name="description" class="form-control" placeholder="Description">
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-success w-100">Add Task</button>
+        </div>
+    </div>
+</form>
+
+<div class="row">
+    {% for task in tasks %}
+    <div class="col-md-4 mb-3">
+        <div class="card {% if task.completed %}border-success{% else %}border-warning{% endif %}">
+            <div class="card-body">
+                <h5 class="card-title">{{ task.title }}</h5>
+                {% if task.description %}
+                <p class="card-text">{{ task.description }}</p>
+                {% endif %}
+                <div class="btn-group">
+                    <a href="{{ url_for('toggle_task', task_id=task.id) }}" 
+                       class="btn btn-sm {% if task.completed %}btn-outline-success{% else %}btn-outline-warning{% endif %}">
+                        {{ 'Done' if not task.completed else 'Undo' }}
+                    </a>
+                    <a href="{{ url_for('delete_task', task_id=task.id) }}" class="btn btn-sm btn-outline-danger">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
