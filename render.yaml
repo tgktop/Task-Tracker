@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: TaskScanPro
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app  # Change 'app:app' to your main file
